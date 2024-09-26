@@ -27,6 +27,7 @@ final class ProfilingState {
     Objects.requireNonNull(callingClass);
     Objects.requireNonNull(method);
     Objects.requireNonNull(elapsed);
+
     if (elapsed.isNegative()) {
       throw new IllegalArgumentException("negative elapsed time");
     }
