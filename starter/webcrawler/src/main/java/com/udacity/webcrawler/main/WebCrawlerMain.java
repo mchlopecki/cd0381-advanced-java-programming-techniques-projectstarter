@@ -42,6 +42,7 @@ public final class WebCrawlerMain {
                     : new FileWriter(resultsPath));
     resultWriter.write(writer);
 
+    // Write profiling results
     String profileOutputPath = config.getProfileOutputPath();
     if (!resultsPath.equals(profileOutputPath)) {
       writer.close();
@@ -52,8 +53,6 @@ public final class WebCrawlerMain {
     }
     profiler.writeData(writer);
     writer.close();
-
-    // Write profiling results
 
   }
 
