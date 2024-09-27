@@ -11,10 +11,7 @@ import com.udacity.webcrawler.profiler.Profiler;
 import com.udacity.webcrawler.profiler.ProfilerModule;
 
 import javax.inject.Inject;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.io.*;
 import java.nio.file.Path;
 import java.util.Objects;
 
@@ -44,16 +41,20 @@ public final class WebCrawlerMain {
                     ? new OutputStreamWriter(System.out)
                     : new FileWriter(resultsPath));
     resultWriter.write(writer);
+
+    String profileOutputPath = config.getProfileOutputPath();
+    if (!resultsPath.equals(profileOutputPath)) {
+      writer.close();
+      writer = new BufferedWriter(
+              profileOutputPath.isEmpty()
+                      ? new OutputStreamWriter(System.out)
+                      : new FileWriter(profileOutputPath, true));
+    }
+    profiler.writeData(writer);
     writer.close();
 
     // Write profiling results
-    String profileOutputPath = config.getProfileOutputPath();
-    writer = new BufferedWriter(
-            profileOutputPath.isEmpty()
-                    ? new OutputStreamWriter(System.out)
-                    : new FileWriter(profileOutputPath, true));
-    profiler.writeData(writer);
-    writer.close();
+
   }
 
   public static void main(String[] args) throws Exception {
